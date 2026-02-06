@@ -1,11 +1,30 @@
 {
     "version": 2,
-    "builds": [{
-        "src": "index.js",
-        "use": "@vercel/node"
-    }],
-    "routes": [{
-        "src": "/(.*)",
-        "dest": "index.js"
-    }]
+    "builds": [
+        {
+            "src": "main/**",
+            "use": "@vercel/static"
+        },
+        {
+            "src": "index.js",
+            "use": "@vercel/node",
+            "config": {
+                "includeFiles": ["index.mjs", "main/**"]
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/bare/(.*)",
+            "dest": "index.js"
+        },
+        {
+            "src": "/(.*\\.[a-zA-Z0-9]+)$",
+            "dest": "main/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "index.js"
+        }
+    ]
 }
